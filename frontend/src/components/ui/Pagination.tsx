@@ -25,13 +25,13 @@ export function Pagination({ total, skip, take, onPageChange }: PaginationProps)
   return (
     <div className="flex items-center justify-between">
       <span className="text-sm text-gray-500">
-        {from} a {to} | {total} resultados
+        <span className='font-medium'>{from}</span> a <span className='font-medium'>{to}</span> | <span className='font-medium'>{total}</span> resultados
       </span>
       <div className="flex items-center gap-1">
         <button
           onClick={() => onPageChange(skip - take)}
           disabled={currentPage === 1}
-          className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer"
+          className="rounded-lg border border-gray-300 p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -43,7 +43,7 @@ export function Pagination({ total, skip, take, onPageChange }: PaginationProps)
               {showEllipsis && <span className="px-1 text-gray-400">...</span>}
               <button
                 onClick={() => onPageChange((page - 1) * take)}
-                className={`h-8 w-8 rounded-lg text-sm font-medium cursor-pointer ${
+                className={`h-8 w-8 rounded-lg border border-gray-300 text-sm font-medium cursor-pointer ${
                   page === currentPage
                     ? 'bg-brand text-white'
                     : 'text-gray-600 hover:bg-gray-100'
@@ -57,7 +57,7 @@ export function Pagination({ total, skip, take, onPageChange }: PaginationProps)
         <button
           onClick={() => onPageChange(skip + take)}
           disabled={currentPage === totalPages}
-          className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer"
+          className="rounded-lg border border-gray-300 p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

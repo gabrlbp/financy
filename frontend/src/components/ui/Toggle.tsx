@@ -8,7 +8,7 @@ interface ToggleProps {
 
 export function Toggle({ value, onChange }: ToggleProps) {
   return (
-    <div className="flex gap-0.5 p-2 rounded-lg border border-gray-300 overflow-hidden">
+    <div className="flex gap-1 p-2 rounded-lg border border-gray-300 overflow-hidden">
       <button
         type="button"
         onClick={() => onChange('EXPENSE')}

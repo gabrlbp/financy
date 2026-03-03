@@ -1,4 +1,4 @@
-import { SquarePen, Trash } from 'lucide-react'
+import { ArrowDownCircle, ArrowUpCircle, SquarePen, Trash } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { formatCurrency, formatDate } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
@@ -21,19 +21,19 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-      <table className="w-full">
+      <table className="w-full text-center">
         <thead>
           <tr className="border-b border-gray-200 bg-white">
             <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
               Descrição
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
               Data
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
               Categoria
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
               Tipo
             </th>
             <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
@@ -68,22 +68,15 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                   {t.category && <Badge label={t.category.title} color={t.category.color} />}
                 </td>
                 <td className="px-6 py-4">
-                  <span
-                    className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${
+                  <span className='inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-sm font-medium'>
+                    {
                       t.type === 'INCOME'
-                        ? 'bg-brand/10 text-brand'
-                        : 'bg-danger/10 text-danger'
-                    }`}
-                  >
-                    {t.type === 'INCOME' ? 'Receita' : 'Despesa'}
+                        ? <><ArrowUpCircle className='text-brand' size={16} /> <span className='text-brand-dark'>Entrada</span></>
+                        : <><ArrowDownCircle className='text-danger' size={16} /> <span className='text-danger-dark'>Saída</span></>}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <span
-                    className={`text-sm font-semibold ${
-                      t.type === 'INCOME' ? 'text-brand' : 'text-danger'
-                    }`}
-                  >
+                  <span className='text-sm font-semibold'>
                     {t.type === 'INCOME' ? '+' : '-'} {formatCurrency(t.amount)}
                   </span>
                 </td>

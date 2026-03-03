@@ -47,7 +47,7 @@ export function RecentTransactions({ transactions, onNewTransaction }: RecentTra
                     <p className="text-xs text-gray-500">{formatDate(t.date)}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-12">
                   {t.category && <Badge label={t.category.title} color={t.category.color} />}
                   <span className='flex items-center gap-2 text-sm font-semibold text-gray-800'>
                     {t.type === 'INCOME' ? '+' : '-'} {formatCurrency(t.amount)}

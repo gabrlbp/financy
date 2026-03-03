@@ -47,13 +47,25 @@ export function TransactionFilters({ filters, onFilterChange }: TransactionFilte
   }))
 
   const currentYear = new Date().getFullYear()
-  const yearOptions = Array.from({ length: 5 }, (_, i) => ({
-    value: String(currentYear - i),
-    label: String(currentYear - i),
-  }))
+
+  // Generate period options (month/year combinations for last 5 years)
+  const periodOptions: { value: string; label: string }[] = []
+  for (let year = currentYear; year >= currentYear - 2; year--) {
+    for (let month = 12; month >= 1; month--) {
+      periodOptions.push({
+        value: `${month}/${year}`,
+        label: `${MONTHS.find(m => m.value === String(month))?.label} / ${year}`,
+      })
+    }
+  }
+
+  // Current selected period value
+  const currentPeriod = filters.month && filters.year
+    ? `${filters.month}/${filters.year}`
+    : `${new Date().getMonth() + 1}/${currentYear}`
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <Input
         icon={Search}
         label='Buscar'
@@ -79,14 +91,17 @@ export function TransactionFilters({ filters, onFilterChange }: TransactionFilte
         onChange={(e) => onFilterChange({ categoryId: e.target.value || undefined })}
       />
       <Select
-        options={MONTHS}
-        value={String(filters.month)}
-        onChange={(e) => onFilterChange({ month: parseInt(e.target.value) })}
-      />
-      <Select
-        options={yearOptions}
-        value={String(filters.year)}
-        onChange={(e) => onFilterChange({ year: parseInt(e.target.value) })}
+        label="Período"
+        placeholder="Selecione o período"
+        options={periodOptions}
+        value={currentPeriod}
+        onChange={(e) => {
+          const [month, year] = e.target.value.split('/')
+          onFilterChange({
+            month: parseInt(month),
+            year: parseInt(year)
+          })
+        }}
       />
     </div>
   )

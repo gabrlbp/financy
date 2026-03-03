@@ -20,7 +20,7 @@ export function CategorySummary({ categories, transactions }: CategorySummaryPro
   })
 
   return (
-    <Card>
+    <Card className='max-h-fit'>
       <div className="flex items-center justify-between border-b border-gray-200 py-5 px-6">
         <h2 className="text-sm font-medium text-gray-500">{toUpperCase('Categorias')}</h2>
         <Link to="/categorias" className="flex items-center text-sm font-medium text-brand hover:text-brand-dark">

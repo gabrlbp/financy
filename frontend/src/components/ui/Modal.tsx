@@ -29,7 +29,7 @@ export function Modal({ open, onClose, title, subtitle, children }: ModalProps) 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl mx-4">
+      <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl mx-4 animate-fade-in">
         <div className="mb-4 flex items-start justify-between">
           <div>
             <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
