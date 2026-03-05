@@ -75,8 +75,8 @@ export class TransactionResolver {
 	async deleteTransaction(
 		@Arg('id', () => ID) id: string,
 		@Ctx() ctx: GraphQLContext,
-	): Promise<boolean> {
-		return this.transactionService.deleteTransaction(ctx.userId, id);
+	): Promise<void> {
+		await this.transactionService.deleteTransaction(ctx.userId, id);
 	}
 
 	@FieldResolver(() => User, { nullable: true })

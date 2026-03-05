@@ -127,8 +127,6 @@ export class CategoryService {
 		await prisma.category.delete({
 			where: { id: categoryId },
 		});
-
-		return true;
 	}
 
 	async findAllByUserId(userId: string) {

@@ -166,8 +166,6 @@ export class TransactionService {
 		await prisma.transaction.delete({
 			where: { id: transactionId },
 		});
-
-		return true;
 	}
 
 	async findAllByCategoryId(categoryId: string) {

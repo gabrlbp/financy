@@ -69,8 +69,8 @@ export class CategoryResolver {
 	async deleteCategory(
 		@Arg('id', () => ID) id: string,
 		@Ctx() ctx: GraphQLContext,
-	): Promise<boolean> {
-		return this.categoryService.deleteCategory(ctx.userId, id);
+	): Promise<void> {
+		await this.categoryService.deleteCategory(ctx.userId, id);
 	}
 
 	@FieldResolver(() => User, { nullable: true })
