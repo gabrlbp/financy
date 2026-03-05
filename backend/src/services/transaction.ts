@@ -1,4 +1,5 @@
 import type { TransactionType } from '@prisma/client';
+import { endOfMonth } from 'date-fns';
 import type { TransactionWhereInput } from '@/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { BadRequestError, NotFoundError } from '@/utils/errors';
@@ -11,13 +12,7 @@ interface CreateTransactionInput {
 	categoryId: string;
 }
 
-interface UpdateTransactionInput {
-	description?: string;
-	amount?: number;
-	type?: TransactionType;
-	date?: string | Date;
-	categoryId?: string;
-}
+type UpdateTransactionInput = Partial<CreateTransactionInput>;
 
 interface TransactionFilters {
 	month: number;
@@ -62,7 +57,7 @@ export class TransactionService {
 		take: number = 10,
 	) {
 		const startDate = new Date(filters.year, filters.month - 1, 1);
-		const endDate = new Date(filters.year, filters.month, 31, 23, 59, 59, 999);
+		const endDate = endOfMonth(startDate);
 
 		const where: TransactionWhereInput = {
 			userId,
@@ -90,7 +85,7 @@ export class TransactionService {
 		const [transactions, total] = await Promise.all([
 			prisma.transaction.findMany({
 				where,
-				orderBy: { createdAt: 'desc' },
+				orderBy: { date: 'desc' },
 				skip,
 				take,
 			}),
@@ -180,7 +175,7 @@ export class TransactionService {
 			where: { categoryId },
 		});
 
-		return result ?? []
+		return result ?? [];
 	}
 
 	async findAllByUserId(userId: string) {
@@ -188,6 +183,6 @@ export class TransactionService {
 			where: { userId },
 		});
 
-		return result ?? []
+		return result ?? [];
 	}
 }

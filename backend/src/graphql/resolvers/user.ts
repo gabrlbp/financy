@@ -7,13 +7,13 @@ import {
 	UseMiddleware,
 } from 'type-graphql';
 import { AuthMiddleware } from '@/middleware/auth';
+import { CategoryService } from '@/services/category';
+import { TransactionService } from '@/services/transaction';
 import { UserService } from '@/services/user';
 import type { GraphQLContext } from '../context';
 import { Category } from '../models/category';
 import { Transaction } from '../models/transaction';
 import { User } from '../models/user';
-import { CategoryService } from '@/services/category';
-import { TransactionService } from '@/services/transaction';
 
 @Resolver(() => User)
 @UseMiddleware(AuthMiddleware)

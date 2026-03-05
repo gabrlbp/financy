@@ -11,6 +11,8 @@ import {
 } from 'type-graphql';
 import { AuthMiddleware } from '@/middleware/auth';
 import { CategoryService } from '@/services/category';
+import { TransactionService } from '@/services/transaction';
+import { UserService } from '@/services/user';
 import type { GraphQLContext } from '../context';
 import { CreateCategoryInput, UpdateCategoryInput } from '../inputs/category';
 import { PaginationInput } from '../inputs/pagination';
@@ -18,8 +20,6 @@ import { Category } from '../models/category';
 import { Transaction } from '../models/transaction';
 import { User } from '../models/user';
 import { PaginatedCategory } from '../outputs/category';
-import { UserService } from '@/services/user';
-import { TransactionService } from '@/services/transaction';
 
 @Resolver(() => Category)
 @UseMiddleware(AuthMiddleware)
@@ -30,10 +30,7 @@ export class CategoryResolver {
 
 	@Query(() => PaginatedCategory)
 	async categories(
-		@Arg('pagination', () => PaginationInput, {
-			defaultValue: { skip: 0, take: 10 },
-		})
-		pagination: PaginationInput,
+		@Arg('pagination', () => PaginationInput) pagination: PaginationInput,
 		@Ctx() ctx: GraphQLContext,
 	): Promise<PaginatedCategory> {
 		return this.categoryService.findAll(

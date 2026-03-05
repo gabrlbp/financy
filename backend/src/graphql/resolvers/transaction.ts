@@ -10,7 +10,9 @@ import {
 	UseMiddleware,
 } from 'type-graphql';
 import { AuthMiddleware } from '@/middleware/auth';
+import { CategoryService } from '@/services/category';
 import { TransactionService } from '@/services/transaction';
+import { UserService } from '@/services/user';
 import type { GraphQLContext } from '../context';
 import { PaginationInput } from '../inputs/pagination';
 import {
@@ -22,8 +24,6 @@ import { Category } from '../models/category';
 import { Transaction } from '../models/transaction';
 import { User } from '../models/user';
 import { PaginatedTransaction } from '../outputs/transaction';
-import { UserService } from '@/services/user';
-import { CategoryService } from '@/services/category';
 
 @Resolver(() => Transaction)
 @UseMiddleware(AuthMiddleware)
@@ -34,12 +34,8 @@ export class TransactionResolver {
 
 	@Query(() => PaginatedTransaction)
 	async transactions(
-		@Arg('filter', () => TransactionFilterInput)
-		filter: TransactionFilterInput,
-		@Arg('pagination', () => PaginationInput, {
-			defaultValue: { skip: 0, take: 10 },
-		})
-		pagination: PaginationInput,
+		@Arg('filter', () => TransactionFilterInput) filter: TransactionFilterInput,
+		@Arg('pagination', () => PaginationInput) pagination: PaginationInput,
 		@Ctx() ctx: GraphQLContext,
 	): Promise<PaginatedTransaction> {
 		return this.transactionService.findAll(
@@ -90,6 +86,9 @@ export class TransactionResolver {
 
 	@FieldResolver(() => Category)
 	async category(@Root() transaction: Transaction): Promise<Category> {
-		return this.categoryService.findById(transaction.userId, transaction.categoryId);
+		return this.categoryService.findById(
+			transaction.userId,
+			transaction.categoryId,
+		);
 	}
 }
