@@ -35,7 +35,10 @@ export class TransactionResolver {
 	@Query(() => PaginatedTransaction)
 	async transactions(
 		@Arg('filter', () => TransactionFilterInput) filter: TransactionFilterInput,
-		@Arg('pagination', () => PaginationInput) pagination: PaginationInput,
+		@Arg('pagination', () => PaginationInput, {
+			defaultValue: { skip: 0, take: 10 },
+		})
+		pagination: PaginationInput,
 		@Ctx() ctx: GraphQLContext,
 	): Promise<PaginatedTransaction> {
 		return this.transactionService.findAll(

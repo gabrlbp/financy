@@ -30,7 +30,10 @@ export class CategoryResolver {
 
 	@Query(() => PaginatedCategory)
 	async categories(
-		@Arg('pagination', () => PaginationInput) pagination: PaginationInput,
+		@Arg('pagination', () => PaginationInput, {
+			defaultValue: { skip: 0, take: 10 },
+		})
+		pagination: PaginationInput,
 		@Ctx() ctx: GraphQLContext,
 	): Promise<PaginatedCategory> {
 		return this.categoryService.findAll(
