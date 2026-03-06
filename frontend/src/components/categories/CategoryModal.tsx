@@ -5,9 +5,10 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { IconPicker } from '@/components/ui/IconPicker'
 import { ColorPicker } from '@/components/ui/ColorPicker'
-import { categorySchema, type CategoryData } from '@/lib/validators'
+import { categorySchema } from '@/lib/validators'
 import { CREATE_CATEGORY_MUTATION, UPDATE_CATEGORY_MUTATION } from '@/graphql/mutations/categories'
 import { COLOR_PALETTE } from '@/lib/constants'
+import { useFormValidation } from '@/hooks/useFormValidation'
 import type { Category } from '@/types'
 
 interface CategoryModalProps {
@@ -17,14 +18,15 @@ interface CategoryModalProps {
   onSuccess: () => void
 }
 
+const initialForm = {
+  title: '',
+  description: '',
+  icon: 'briefcase',
+  color: COLOR_PALETTE[0],
+}
+
 export function CategoryModal({ open, onClose, category, onSuccess }: CategoryModalProps) {
-  const [form, setForm] = useState({
-    title: '',
-    description: '',
-    icon: 'briefcase',
-    color: COLOR_PALETTE[0],
-  })
-  const [errors, setErrors] = useState<Partial<Record<keyof CategoryData, string>>>({})
+  const { form, errors, setField, setForm, validate, clearErrors } = useFormValidation(initialForm)
   const [serverError, setServerError] = useState('')
 
   const [createCategory, { loading: creating }] = useMutation(CREATE_CATEGORY_MUTATION)
@@ -41,9 +43,9 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
         color: category.color,
       })
     } else {
-      setForm({ title: '', description: '', icon: 'briefcase', color: COLOR_PALETTE[0] })
+      setForm(initialForm)
     }
-    setErrors({})
+    clearErrors()
     setServerError('')
   }, [category, open])
 
@@ -56,25 +58,15 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
       description: form.description || undefined,
     }
 
-    const result = categorySchema.safeParse(data)
-    if (!result.success) {
-      const fieldErrors: typeof errors = {}
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof CategoryData
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message
-      }
-      setErrors(fieldErrors)
-      return
-    }
-
-    setErrors({})
+    const result = validate(categorySchema, data)
+    if (!result) return
 
     try {
       const input = {
-        title: result.data.title,
-        description: result.data.description || null,
-        icon: result.data.icon,
-        color: result.data.color,
+        title: result.title,
+        description: result.description || null,
+        icon: result.icon,
+        color: result.color,
       }
 
       if (category) {
@@ -108,7 +100,7 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
           label="Título"
           placeholder="Ex: Alimentação"
           value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          onChange={(e) => setField('title', e.target.value)}
           error={errors.title}
         />
 
@@ -116,18 +108,18 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
           label="Descrição"
           placeholder="Descrição da categoria"
           value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          onChange={(e) => setField('description', e.target.value)}
           infoText='Opcional'
         />
 
         <IconPicker
           value={form.icon}
-          onChange={(icon) => setForm({ ...form, icon })}
+          onChange={(icon) => setField('icon', icon)}
         />
 
         <ColorPicker
           value={form.color}
-          onChange={(color) => setForm({ ...form, color })}
+          onChange={(color) => setField('color', color)}
         />
 
         <Button className='mt-6' type="submit" fullWidth loading={loading}>

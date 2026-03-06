@@ -8,7 +8,8 @@ import { Toggle } from '@/components/ui/Toggle'
 import { transactionSchema, type TransactionData } from '@/lib/validators'
 import { CREATE_TRANSACTION_MUTATION, UPDATE_TRANSACTION_MUTATION } from '@/graphql/mutations/transactions'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
-import type { Transaction, TransactionType, Category, PaginatedResponse } from '@/types'
+import { useFormValidation } from '@/hooks/useFormValidation'
+import type { Transaction, Category, PaginatedResponse } from '@/types'
 
 interface TransactionModalProps {
   open: boolean
@@ -17,15 +18,16 @@ interface TransactionModalProps {
   onSuccess: () => void
 }
 
+const initialForm: TransactionData = {
+  description: '',
+  amount: 0,
+  type: 'EXPENSE',
+  date: new Date().toISOString(),
+  categoryId: '',
+}
+
 export function TransactionModal({ open, onClose, transaction, onSuccess }: TransactionModalProps) {
-  const [form, setForm] = useState({
-    description: '',
-    amount: '',
-    type: 'EXPENSE' as TransactionType,
-    date: new Date().toISOString().split('T')[0],
-    categoryId: '',
-  })
-  const [errors, setErrors] = useState<Partial<Record<keyof TransactionData, string>>>({})
+  const { form, errors, setField, setForm, validate, clearErrors } = useFormValidation(initialForm)
   const [serverError, setServerError] = useState('')
 
   const { data: categoriesData } = useQuery<{ categories: PaginatedResponse<Category> }>(
@@ -38,57 +40,37 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
 
   const loading = creating || updating
 
+  //TODO: tentar alterar para usar uma função apenas ou entao alterar o if pelo menos para nao usar o else
   useEffect(() => {
     if (transaction) {
       setForm({
         description: transaction.description,
-        amount: String(transaction.amount),
+        amount: transaction.amount,
         type: transaction.type,
-        date: new Date(transaction.date).toISOString().split('T')[0],
+        date: new Date(transaction.date).toISOString(),
         categoryId: transaction.category?.id || '',
       })
     } else {
-      setForm({
-        description: '',
-        amount: '',
-        type: 'EXPENSE',
-        date: new Date().toISOString().split('T')[0],
-        categoryId: '',
-      })
+      setForm(initialForm)
     }
-    setErrors({})
+    clearErrors()
     setServerError('')
   }, [transaction, open])
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
     setServerError('')
 
-    const parsed = {
-      ...form,
-      amount: parseFloat(form.amount) || 0,
-    }
-
-    const result = transactionSchema.safeParse(parsed)
-    if (!result.success) {
-      const fieldErrors: typeof errors = {}
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof TransactionData
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message
-      }
-      setErrors(fieldErrors)
-      return
-    }
-
-    setErrors({})
+    const result = validate(transactionSchema)
+    if (!result) return
 
     try {
       const input = {
-        description: result.data.description,
-        amount: result.data.amount,
-        type: result.data.type,
-        date: result.data.date,
-        categoryId: result.data.categoryId,
+        description: result.description,
+        amount: result.amount,
+        type: result.type,
+        date: result.date,
+        categoryId: result.categoryId,
       }
 
       if (transaction) {
@@ -123,13 +105,13 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Toggle value={form.type} onChange={(type) => setForm({ ...form, type })} />
+        <Toggle value={form.type} onChange={(type) => setField('type', type)} />
 
         <Input
           label="Descrição"
           placeholder="Ex: Almoço, Salário..."
           value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          onChange={(e) => setField('description', e.target.value)}
           error={errors.description}
         />
 
@@ -138,7 +120,7 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
             label="Data"
             type="date"
             value={form.date}
-            onChange={(e) => setForm({ ...form, date: e.target.value })}
+            onChange={(e) => setField('date', e.target.value)}
             error={errors.date}
           />
           <Input
@@ -148,7 +130,7 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
             min="0"
             placeholder="0,00"
             value={form.amount}
-            onChange={(e) => setForm({ ...form, amount: e.target.value })}
+            onChange={(e) => setField('amount', e.target.value)}
             error={errors.amount}
           />
         </div>
@@ -158,7 +140,7 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
           placeholder="Selecione uma categoria"
           options={categoryOptions}
           value={form.categoryId}
-          onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
+          onChange={(e) => setField('categoryId', e.target.value)}
           error={errors.categoryId}
         />
 

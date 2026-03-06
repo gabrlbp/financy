@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client/react'
 import { LogIn, Mail, User } from 'lucide-react'
-import { registerSchema, type RegisterData } from '@/lib/validators'
+import { registerSchema } from '@/lib/validators'
 import { REGISTER_MUTATION } from '@/graphql/mutations/auth'
 import { useAuthStore } from '@/stores/auth'
+import { useFormValidation } from '@/hooks/useFormValidation'
 import { Input } from '@/components/ui/Input'
 import { PasswordInput } from '@/components/ui/PasswordInput'
 import { Button } from '@/components/ui/Button'
@@ -13,8 +14,7 @@ import type { AuthPayload } from '@/types'
 export function RegisterPage() {
   const navigate = useNavigate()
   const setAuth = useAuthStore((s) => s.setAuth)
-  const [form, setForm] = useState({ name: '', email: '', password: '' })
-  const [errors, setErrors] = useState<Partial<Record<keyof RegisterData, string>>>({})
+  const { form, errors, setField, validate } = useFormValidation({ name: '', email: '', password: '' })
   const [serverError, setServerError] = useState('')
 
   const [register, { loading }] = useMutation<{ register: AuthPayload }>(REGISTER_MUTATION)
@@ -23,21 +23,11 @@ export function RegisterPage() {
     e.preventDefault()
     setServerError('')
 
-    const result = registerSchema.safeParse(form)
-    if (!result.success) {
-      const fieldErrors: typeof errors = {}
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof RegisterData
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message
-      }
-      setErrors(fieldErrors)
-      return
-    }
-
-    setErrors({})
+    const result = validate(registerSchema)
+    if (!result) return
 
     try {
-      const { data } = await register({ variables: { input: result.data } })
+      const { data } = await register({ variables: { input: result } })
       if (data) {
         setAuth(data.register.token, data.register.user)
         navigate('/')
@@ -66,7 +56,7 @@ export function RegisterPage() {
           icon={User}
           placeholder="Seu nome completo"
           value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          onChange={(e) => setField('name', e.target.value)}
           error={errors.name}
         />
         <Input
@@ -75,14 +65,14 @@ export function RegisterPage() {
           type="email"
           placeholder="seu@email.com"
           value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={(e) => setField('email', e.target.value)}
           error={errors.email}
         />
         <PasswordInput
           label="Senha"
           placeholder="Digite sua senha"
           value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={(e) => setField('password', e.target.value)}
           error={errors.password}
           infoText='A senha deve ter no mínimo 8 caracteres'
         />

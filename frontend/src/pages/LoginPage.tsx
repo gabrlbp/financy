@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client/react'
 import { Mail, UserRoundPlus } from 'lucide-react'
-import { loginSchema, type LoginData } from '@/lib/validators'
+import { loginSchema } from '@/lib/validators'
 import { LOGIN_MUTATION } from '@/graphql/mutations/auth'
 import { useAuthStore } from '@/stores/auth'
+import { useFormValidation } from '@/hooks/useFormValidation'
 import { Input } from '@/components/ui/Input'
 import { PasswordInput } from '@/components/ui/PasswordInput'
 import { Button } from '@/components/ui/Button'
@@ -13,8 +14,7 @@ import type { AuthPayload } from '@/types'
 export function LoginPage() {
   const navigate = useNavigate()
   const setAuth = useAuthStore((s) => s.setAuth)
-  const [form, setForm] = useState({ email: '', password: '' })
-  const [errors, setErrors] = useState<Partial<Record<keyof LoginData, string>>>({})
+  const { form, errors, setField, validate } = useFormValidation({ email: '', password: '' })
   const [serverError, setServerError] = useState('')
 
   const [login, { loading }] = useMutation<{ login: AuthPayload }>(LOGIN_MUTATION)
@@ -23,22 +23,11 @@ export function LoginPage() {
     e.preventDefault()
     setServerError('')
 
-    const result = loginSchema.safeParse(form)
-
-    if (!result.success) {
-      const fieldErrors: typeof errors = {}
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof LoginData
-        if (!fieldErrors[field]) fieldErrors[field] = issue.message
-      }
-      setErrors(fieldErrors)
-      return
-    }
-
-    setErrors({})
+    const result = validate(loginSchema)
+    if (!result) return
 
     try {
-      const { data } = await login({ variables: { input: result.data } })
+      const { data } = await login({ variables: { input: result } })
       if (data) {
         setAuth(data.login.token, data.login.user)
         navigate('/')
@@ -68,14 +57,14 @@ export function LoginPage() {
           type="email"
           placeholder="seu@email.com"
           value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={(e) => setField('email', e.target.value)}
           error={errors.email}
         />
         <PasswordInput
           label="Senha"
           placeholder="Digite sua senha"
           value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={(e) => setField('password', e.target.value)}
           error={errors.password}
         />
         <Button type="submit" fullWidth loading={loading}>
