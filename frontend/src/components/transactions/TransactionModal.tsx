@@ -130,7 +130,7 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
             min="0"
             placeholder="0,00"
             value={form.amount}
-            onChange={(e) => setField('amount', e.target.value)}
+            onChange={(e) => setField('amount', Number(e.target.value))}
             error={errors.amount}
           />
         </div>

@@ -1,6 +1,6 @@
 import { Wallet, CircleArrowUp, CircleArrowDown } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
-import { formatCurrency, toUpperCase } from '@/lib/format'
+import { formatCurrency } from '@/lib/format'
 
 interface SummaryCardsProps {
   balance: number
@@ -37,7 +37,7 @@ export function SummaryCards({ balance, income, expenses }: SummaryCardsProps) {
           <div className="flex flex-col items-start gap-4">
             <div className='flex items-center justify-center gap-3'>
               <card.icon className={`h-6 w-6 ${card.iconColor}`} />
-              <p className="text-xs font-medium text-gray-500">{toUpperCase(card.title)}</p>
+              <p className="text-xs font-medium text-gray-500 uppercase">{card.title}</p>
             </div>
             <div>
               <p className="text-[28px] font-bold text-gray-800">{formatCurrency(card.value)}</p>

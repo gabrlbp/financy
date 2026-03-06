@@ -72,13 +72,15 @@ export function TransactionsPage() {
       </Card>
 
 
-      <TransactionTable
-        transactions={items}
-        onEdit={handleEdit}
-        onDelete={setDeletingTransaction}
-      />
+      <Card>
+        <TransactionTable
+          transactions={items}
+          onEdit={handleEdit}
+          onDelete={setDeletingTransaction}
+          />
 
-      <Pagination total={total} skip={skip} take={take} onPageChange={setPage} />
+        <Pagination total={total} skip={skip} take={take} onPageChange={setPage} />
+      </Card>
 
       <TransactionModal
         open={modalOpen}

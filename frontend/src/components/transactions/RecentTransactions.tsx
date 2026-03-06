@@ -3,7 +3,7 @@ import { ChevronRight, CircleArrowDown, CircleArrowUp, Plus } from 'lucide-react
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
-import { formatCurrency, formatDate, toUpperCase } from '@/lib/format'
+import { formatCurrency, formatDate } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
 import type { Transaction } from '@/types'
 
@@ -16,7 +16,7 @@ export function RecentTransactions({ transactions, onNewTransaction }: RecentTra
   return (
     <Card>
       <div className="flex items-center justify-between border-b border-gray-200 py-5 px-6">
-        <h2 className="text-xs font-medium text-gray-500">{toUpperCase('Transações recentes')}</h2>
+        <h2 className="text-xs font-medium text-gray-500 uppercase">Transações recentes</h2>
         <div className="flex items-center gap-3">
           <Link to="/transacoes" className="flex items-center text-sm font-medium text-brand hover:text-brand-dark">
             Ver todas <ChevronRight size={20} />

@@ -20,33 +20,33 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+    <div className="overflow-hidden rounded-xl rounded-b-none border border-gray-200 bg-white">
       <table className="w-full text-center">
         <thead>
-          <tr className="border-b border-gray-200 bg-white">
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+          <tr className="uppercase text-xs border-b border-gray-200 text-gray-500">
+            <th className="px-6 py-5 text-left font-medium">
               Descrição
             </th>
-            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-5 text-center font-medium">
               Data
             </th>
-            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-5 text-center font-medium">
               Categoria
             </th>
-            <th className="px-6 py-3 text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-5 text-center font-medium">
               Tipo
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-5 text-right font-medium">
               Valor
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
+            <th className="px-6 py-5 text-right font-medium">
               Ações
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
+        <tbody className="divide-y divide-gray-200">
           {transactions.map((t) => {
-            const Icon = t.category ? getIcon(t.category.icon) : getIcon('wbriefcaset')
+            const Icon = getIcon(t.category.icon)
             return (
               <tr key={t.id} className="hover:bg-gray-100">
                 <td className="px-6 py-4">
@@ -54,8 +54,8 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                     <div
                       className="flex h-9 w-9 items-center justify-center rounded-lg"
                       style={{
-                        backgroundColor: t.category ? `${t.category.color}1A` : '#E5E7EB',
-                        color: t.category?.color || '#6B7280',
+                        backgroundColor: `${t.category.color}1A`,
+                        color: t.category.color,
                       }}
                     >
                       <Icon className="h-4 w-4" />

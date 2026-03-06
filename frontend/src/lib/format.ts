@@ -22,7 +22,3 @@ export function getInitials(name: string): string {
     .join('')
     .toUpperCase()
 }
-
-export function toUpperCase(text: string): string {
-  return text.toUpperCase();
-}

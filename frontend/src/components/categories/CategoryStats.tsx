@@ -1,6 +1,5 @@
 import { Star, ArrowUpDown, Tag } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
-import { toUpperCase } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
 import type { Category } from '@/types'
 
@@ -49,7 +48,7 @@ export function CategoryStats({ totalCategories, totalTransactions, mostUsed }: 
               </div>
               <div>
                 <p className="text-3xl mb-2 font-bold text-gray-800">{stat.value}</p>
-                <p className="text-sm font-medium text-gray-500">{toUpperCase(stat.title)}</p>
+                <p className="text-sm font-medium text-gray-500 uppercase">{stat.title}</p>
               </div>
             </div>
           </Card>

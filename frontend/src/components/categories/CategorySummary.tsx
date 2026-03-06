@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { formatCurrency, toUpperCase } from '@/lib/format'
+import { formatCurrency } from '@/lib/format'
 import type { Category, Transaction } from '@/types'
 import { ChevronRight } from 'lucide-react'
 
@@ -22,7 +22,7 @@ export function CategorySummary({ categories, transactions }: CategorySummaryPro
   return (
     <Card className='max-h-fit'>
       <div className="flex items-center justify-between border-b border-gray-200 py-5 px-6">
-        <h2 className="text-sm font-medium text-gray-500">{toUpperCase('Categorias')}</h2>
+        <h2 className="text-sm font-medium text-gray-500 uppercase">Categorias</h2>
         <Link to="/categorias" className="flex items-center text-sm font-medium text-brand hover:text-brand-dark">
           Gerenciar <ChevronRight size={20} />
         </Link>
