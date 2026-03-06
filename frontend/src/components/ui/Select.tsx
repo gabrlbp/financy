@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react';
 import { type SelectHTMLAttributes } from 'react'
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -9,12 +10,12 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export function Select({ label, error, options, placeholder, className = '', ...props }: SelectProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 relative">
       {label && (
         <label className="block text-sm font-medium text-gray-700">{label}</label>
       )}
       <select
-        className={`w-full rounded-lg border border-gray-300 bg-white px-3 py-3.5 text-sm text-gray-800 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none ${error ? 'border-danger' : ''} ${className}`}
+        className={`appearance-none w-full rounded-lg border border-gray-300 bg-white px-3 py-3.5 text-sm text-gray-800 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none ${error ? 'border-danger' : ''} ${className}`}
         {...props}
       >
         {placeholder && (
@@ -26,6 +27,7 @@ export function Select({ label, error, options, placeholder, className = '', ...
           </option>
         ))}
       </select>
+      <ChevronDown size={16} className="absolute right-3 bottom-5 text-gray-900" />
       {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   )
