@@ -5,12 +5,18 @@ export function formatCurrency(value: number): string {
   }).format(value)
 }
 
-export function formatDate(dateStr: string): string {
+type YearFormatConfigurations = '2-digit' | 'numeric' | undefined
+
+export function formatDate(dateStr: string, fullYear: YearFormatConfigurations = '2-digit'): string {
+  if (!dateStr) return ''
+
   const date = new Date(dateStr)
+
   return new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
     month: '2-digit',
-    year: '2-digit',
+    year: fullYear,
+    timeZone: 'UTC',
   }).format(date)
 }
 
