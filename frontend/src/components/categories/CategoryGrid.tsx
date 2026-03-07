@@ -1,5 +1,5 @@
 import { CategoryCard } from './CategoryCard'
-import type { Category } from '@/types'
+import type { Category } from '@/types/category'
 
 interface CategoryGridProps {
   categories: Category[]

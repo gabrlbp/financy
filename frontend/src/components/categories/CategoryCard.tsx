@@ -3,7 +3,7 @@ import Trash from 'lucide-react/dist/esm/icons/trash'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { getIcon } from '@/lib/constants'
-import type { Category } from '@/types'
+import type { Category } from '@/types/category'
 
 interface CategoryCardProps {
   category: Category

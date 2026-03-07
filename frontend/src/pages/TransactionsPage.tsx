@@ -10,7 +10,7 @@ import { TransactionModal } from '@/components/transactions/TransactionModal'
 import { Modal } from '@/components/ui/Modal'
 import { useTransactions } from '@/hooks/useTransactions'
 import { DELETE_TRANSACTION_MUTATION } from '@/graphql/mutations/transactions'
-import type { Transaction } from '@/types'
+import type { Transaction } from '@/types/transaction'
 import { Card } from '@/components/ui/Card'
 
 export function TransactionsPage() {

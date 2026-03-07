@@ -9,7 +9,9 @@ import { transactionSchema, type TransactionData } from '@/lib/validators'
 import { CREATE_TRANSACTION_MUTATION, UPDATE_TRANSACTION_MUTATION } from '@/graphql/mutations/transactions'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
 import { useFormValidation } from '@/hooks/useFormValidation'
-import type { Transaction, Category, PaginatedResponse } from '@/types'
+import type { Transaction } from '@/types/transaction'
+import type { Category } from '@/types/category'
+import type { PaginatedResponse } from '@/types/pagination'
 
 interface TransactionModalProps {
   open: boolean

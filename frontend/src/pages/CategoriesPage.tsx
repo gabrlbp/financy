@@ -10,7 +10,7 @@ import { CategoryModal } from '@/components/categories/CategoryModal'
 import { Modal } from '@/components/ui/Modal'
 import { useCategories } from '@/hooks/useCategories'
 import { DELETE_CATEGORY_MUTATION } from '@/graphql/mutations/categories'
-import type { Category } from '@/types'
+import type { Category } from '@/types/category'
 import { useCategoryAnalytics } from '@/hooks/useCategoryAnalytics'
 
 export function CategoriesPage() {

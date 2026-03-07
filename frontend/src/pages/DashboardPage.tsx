@@ -6,7 +6,9 @@ import { CategorySummary } from '@/components/categories/CategorySummary'
 import { TransactionModal } from '@/components/transactions/TransactionModal'
 import { TRANSACTIONS_QUERY } from '@/graphql/queries/transactions'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
-import type { Transaction, Category, PaginatedResponse } from '@/types'
+import type { Transaction } from '@/types/transaction'
+import type { Category } from '@/types/category'
+import type { PaginatedResponse } from '@/types/pagination'
 import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
 
 const now = new Date()

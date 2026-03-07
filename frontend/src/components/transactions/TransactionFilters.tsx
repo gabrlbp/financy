@@ -4,7 +4,9 @@ import Search from 'lucide-react/dist/esm/icons/search'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
-import type { TransactionFilter, Category, PaginatedResponse } from '@/types'
+import type { TransactionFilter } from '@/types/transaction'
+import type { Category } from '@/types/category'
+import type { PaginatedResponse } from '@/types/pagination'
 
 interface TransactionFiltersProps {
   filters: TransactionFilter

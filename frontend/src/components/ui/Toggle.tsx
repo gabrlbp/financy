@@ -1,4 +1,4 @@
-import type { TransactionType } from '@/types'
+import type { TransactionType } from '@/types/transaction'
 import CircleArrowDown from 'lucide-react/dist/esm/icons/circle-arrow-down'
 import CircleArrowUp from 'lucide-react/dist/esm/icons/circle-arrow-up'
 

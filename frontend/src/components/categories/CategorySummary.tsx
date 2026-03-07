@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { formatCurrency } from '@/lib/format'
-import type { Category, Transaction } from '@/types'
+import type { Category } from '@/types/category'
+import type { Transaction } from '@/types/transaction'
 import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right'
 
 interface CategorySummaryProps {

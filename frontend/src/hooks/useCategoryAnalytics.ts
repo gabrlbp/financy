@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { Category } from '@/types'
+import type { Category } from '@/types/category'
 
 export function useCategoryAnalytics(categories: Category[]) {
   const totalTransactions = useMemo(

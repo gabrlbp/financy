@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react'
 import { useQuery } from '@apollo/client/react'
 import { TRANSACTIONS_QUERY } from '@/graphql/queries/transactions'
-import type { Transaction, TransactionFilter, PaginatedResponse } from '@/types'
+import type { Transaction, TransactionFilter } from '@/types/transaction'
+import type { PaginatedResponse } from '@/types/pagination'
 
 const ITEMS_PER_PAGE = 10
 

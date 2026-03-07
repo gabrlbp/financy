@@ -11,7 +11,7 @@ import { useFormValidation } from '@/hooks/useFormValidation'
 import { Input } from '@/components/ui/Input'
 import { PasswordInput } from '@/components/ui/PasswordInput'
 import { Button } from '@/components/ui/Button'
-import type { AuthPayload } from '@/types'
+import type { AuthPayload } from '@/types/auth'
 
 export function RegisterPage() {
   const navigate = useNavigate()

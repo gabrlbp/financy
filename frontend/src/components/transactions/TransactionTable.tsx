@@ -5,7 +5,7 @@ import Trash from 'lucide-react/dist/esm/icons/trash'
 import { Badge } from '@/components/ui/Badge'
 import { formatCurrency, formatDate } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
-import type { Transaction } from '@/types'
+import type { Transaction } from '@/types/transaction'
 
 interface TransactionTableProps {
   transactions: Transaction[]

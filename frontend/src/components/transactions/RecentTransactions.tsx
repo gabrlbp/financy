@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { formatCurrency, formatDate } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
-import type { Transaction } from '@/types'
+import type { Transaction } from '@/types/transaction'
 
 interface RecentTransactionsProps {
   transactions: Transaction[]

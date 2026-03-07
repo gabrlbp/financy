@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client/react'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
-import type { Category, PaginatedResponse } from '@/types'
+import type { Category } from '@/types/category'
+import type { PaginatedResponse } from '@/types/pagination'
 
 const ITEMS_PER_PAGE = 8
 

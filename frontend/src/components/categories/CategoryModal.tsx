@@ -9,7 +9,7 @@ import { categorySchema } from '@/lib/validators'
 import { CREATE_CATEGORY_MUTATION, UPDATE_CATEGORY_MUTATION } from '@/graphql/mutations/categories'
 import { COLOR_PALETTE } from '@/lib/constants'
 import { useFormValidation } from '@/hooks/useFormValidation'
-import type { Category } from '@/types'
+import type { Category } from '@/types/category'
 
 interface CategoryModalProps {
   open: boolean
