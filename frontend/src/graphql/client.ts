@@ -35,7 +35,37 @@ const errorLink = new ErrorLink(({ error }) => {
   }
 })
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        transactions: {
+          keyArgs: ['filter'],
+          merge(_existing, incoming) {
+            return incoming
+          },
+        },
+        categories: {
+          keyArgs: false,
+          merge(_existing, incoming) {
+            return incoming
+          },
+        },
+      },
+    },
+    Transaction: {
+      keyFields: ['id'],
+    },
+    Category: {
+      keyFields: ['id'],
+    },
+    User: {
+      keyFields: ['id'],
+    },
+  },
+})
+
 export const client = new ApolloClient({
   link: ApolloLink.from([errorLink, authLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache,
 })
