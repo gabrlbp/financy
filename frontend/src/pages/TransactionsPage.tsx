@@ -48,13 +48,7 @@ export function TransactionsPage() {
     refetch()
   }, [refetch])
 
-  if (loading && items.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-brand" />
-      </div>
-    )
-  }
+  const isInitialLoading = loading && items.length === 0
 
   return (
     <div className="space-y-6">
@@ -74,13 +68,21 @@ export function TransactionsPage() {
 
 
       <Card>
-        <TransactionTable
-          transactions={items}
-          onEdit={handleEdit}
-          onDelete={setDeletingTransaction}
-          />
+        {isInitialLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          </div>
+        ) : (
+          <>
+            <TransactionTable
+              transactions={items}
+              onEdit={handleEdit}
+              onDelete={setDeletingTransaction}
+            />
 
-        <Pagination total={total} skip={skip} take={take} onPageChange={setPage} />
+            <Pagination total={total} skip={skip} take={take} onPageChange={setPage} />
+          </>
+        )}
       </Card>
 
       <TransactionModal
