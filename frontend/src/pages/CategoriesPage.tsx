@@ -35,13 +35,10 @@ export function CategoriesPage() {
 
   const handleDelete = useCallback(async () => {
     if (!deletingCategory) return
-    try {
-      await deleteCategory({ variables: { id: deletingCategory.id } })
-      setDeletingCategory(null)
-      refetch()
-    } catch {
-      // Error handled by Apollo error link
-    }
+
+    await deleteCategory({ variables: { id: deletingCategory.id } })
+    setDeletingCategory(null)
+    refetch()
   }, [deletingCategory, deleteCategory, refetch])
 
   const handleSuccess = useCallback(() => {

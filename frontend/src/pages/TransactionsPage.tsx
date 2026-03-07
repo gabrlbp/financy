@@ -35,18 +35,13 @@ export function TransactionsPage() {
 
   const handleDelete = useCallback(async () => {
     if (!deletingTransaction) return
-    try {
-      await deleteTransaction({ variables: { id: deletingTransaction.id } })
-      setDeletingTransaction(null)
-      refetch()
-    } catch {
-      // Error handled by Apollo error link
-    }
+
+    await deleteTransaction({ variables: { id: deletingTransaction.id } })
+    setDeletingTransaction(null)
+    refetch()
   }, [deletingTransaction, deleteTransaction, refetch])
 
-  const handleSuccess = useCallback(() => {
-    refetch()
-  }, [refetch])
+  const handleSuccess = useCallback(() => refetch(), [refetch])
 
   const isInitialLoading = loading && items.length === 0
 
