@@ -21,10 +21,7 @@ export function DashboardPage() {
   const { data: allTxData, loading: loadingTx, refetch: refetchTx } = useQuery<{
     transactions: PaginatedResponse<Transaction>
   }>(TRANSACTIONS_QUERY, {
-    variables: {
-      filter: { month: currentMonth, year: currentYear },
-      pagination: { take: 1000 },
-    },
+    variables: { filter: { month: currentMonth, year: currentYear } },
   })
 
   const { data: categoriesData, loading: loadingCategories, refetch: refetchCategories } = useQuery<{
@@ -36,13 +33,11 @@ export function DashboardPage() {
   const allTransactions = allTxData?.transactions.items || []
   const categories = categoriesData?.categories.items || []
 
-  // Derive recent transactions from all transactions - avoid extra query
-  const recentTransactions = useMemo(() => 
-    allTransactions.slice(0, 5), 
+  const recentTransactions = useMemo(() =>
+    allTransactions.slice(0, 5),
     [allTransactions]
   )
 
-  // Memoize expensive calculations
   const { income, expenses, balance } = useMemo(() => {
     const income = allTransactions
       .filter((t) => t.type === 'INCOME')
