@@ -128,8 +128,24 @@ The application uses PostgreSQL with three main entities:
 ### Prerequisites
 
 - Node.js 20+ and pnpm
-- PostgreSQL database
+- PostgreSQL database (or Docker)
 - Git
+
+### Quick Start with Docker (Recommended)
+
+The easiest way to get started is using Docker Compose to run PostgreSQL:
+
+1. **Navigate to the backend directory and start the database:**
+   ```bash
+   cd backend
+   docker-compose up -d
+   ```
+
+2. **Copy the example environment file:**
+   ```bash
+   cp .env.example .env
+   ```
+   The default configuration in `.env.example` works with the Docker PostgreSQL setup.
 
 ### Backend Setup
 
@@ -144,12 +160,19 @@ The application uses PostgreSQL with three main entities:
    ```
 
 3. **Set up environment variables:**
-   Create a `.env` file in the `backend` directory:
+   Copy the example environment file and modify if needed:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Default `.env` configuration:
    ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/financy"
-   JWT_SECRET="your-super-secret-jwt-key"
+   DATABASE_URL="postgresql://docker:docker@localhost:5432/financy?schema=public"
+   JWT_SECRET="default-jwt-secret-for-development"
    PORT=4000
    ```
+   
+   **Note:** The JWT_SECRET is pre-configured for development. For production, use a strong, unique secret.
 
 4. **Run database migrations:**
    ```bash
@@ -187,12 +210,33 @@ The application uses PostgreSQL with three main entities:
 
    The application will be available at `http://localhost:5173`
 
+   **Note:** The frontend expects the backend to be running at `http://localhost:4000/graphql`. CORS is configured to allow this setup.
+
 ### Default Ports
 
-| Service | URL |
-|---------|-----|
-| Frontend | http://localhost:5173 |
-| Backend API | http://localhost:4000/graphql |
+| Service | URL | Description |
+|---------|-----|-------------|
+| Frontend | http://localhost:5173 | React application |
+| Backend API | http://localhost:4000/graphql | GraphQL endpoint |
+| PostgreSQL | localhost:5432 | Database (if using Docker) |
+
+### Running Both Services
+
+To run the full application locally, you need to start both services in separate terminal windows:
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+pnpm dev
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+pnpm dev
+```
+
+Access the application at http://localhost:5173
 
 ---
 
