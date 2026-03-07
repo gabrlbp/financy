@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
-import { Plus, Loader2 } from 'lucide-react'
+import Plus from 'lucide-react/dist/esm/icons/plus'
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
 import { Button } from '@/components/ui/Button'
 import { Pagination } from '@/components/ui/Pagination'
 import { TransactionFilters } from '@/components/transactions/TransactionFilters'

@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react'
-import { X } from 'lucide-react'
+import X from 'lucide-react/dist/esm/icons/x'
 
 interface ModalProps {
   open: boolean
@@ -10,10 +10,11 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, title, subtitle, children }: ModalProps) {
+  function handleEsc(e: KeyboardEvent) {
+    if (e.key === 'Escape') onClose()
+  }
+
   useEffect(() => {
-    function handleEsc(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
-    }
     if (open) {
       document.addEventListener('keydown', handleEsc)
       document.body.style.overflow = 'hidden'
@@ -27,9 +28,9 @@ export function Modal({ open, onClose, title, subtitle, children }: ModalProps) 
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center">
+    <div className="fixed inset-0 z-100 flex items-center justify-center animate-fade-in">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl mx-4 animate-fade-in">
+      <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl mx-4">
         <div className="mb-4 flex items-start justify-between">
           <div>
             <h2 className="text-lg font-semibold text-gray-800">{title}</h2>

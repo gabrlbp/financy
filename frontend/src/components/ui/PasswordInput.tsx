@@ -1,5 +1,7 @@
 import { useState, type InputHTMLAttributes } from 'react'
-import { Eye, EyeClosed, Lock } from 'lucide-react'
+import Eye from 'lucide-react/dist/esm/icons/eye'
+import EyeClosed from 'lucide-react/dist/esm/icons/eye-closed'
+import Lock from 'lucide-react/dist/esm/icons/lock'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string

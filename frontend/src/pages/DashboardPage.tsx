@@ -7,7 +7,7 @@ import { TransactionModal } from '@/components/transactions/TransactionModal'
 import { TRANSACTIONS_QUERY } from '@/graphql/queries/transactions'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
 import type { Transaction, Category, PaginatedResponse } from '@/types'
-import { Loader2 } from 'lucide-react'
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
 
 const now = new Date()
 const currentMonth = now.getMonth() + 1

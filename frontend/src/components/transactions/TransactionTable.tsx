@@ -1,4 +1,7 @@
-import { ArrowDownCircle, ArrowUpCircle, SquarePen, Trash } from 'lucide-react'
+import ArrowDownCircle from 'lucide-react/dist/esm/icons/arrow-down-circle'
+import ArrowUpCircle from 'lucide-react/dist/esm/icons/arrow-up-circle'
+import SquarePen from 'lucide-react/dist/esm/icons/square-pen'
+import Trash from 'lucide-react/dist/esm/icons/trash'
 import { Badge } from '@/components/ui/Badge'
 import { formatCurrency, formatDate } from '@/lib/format'
 import { getIcon } from '@/lib/constants'
@@ -60,7 +63,7 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                     >
                       <Icon className="h-4 w-4" />
                     </div>
-                    <span className="text-sm font-medium text-gray-800">{t.description}</span>
+                    <span className="font-medium text-gray-800">{t.description}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{formatDate(t.date)}</td>
@@ -76,7 +79,7 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <span className='text-sm font-semibold'>
+                  <span className='text-sm font-semibold text-gray-800'>
                     {t.type === 'INCOME' ? '+' : '-'} {formatCurrency(t.amount)}
                   </span>
                 </td>

@@ -1,5 +1,6 @@
 import { type ButtonHTMLAttributes } from 'react'
-import { Loader2, type LucideIcon } from 'lucide-react'
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
+import type { LucideIcon } from 'lucide-react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'invisible'
@@ -29,7 +30,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 font-medium transition-colors disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 font-medium transition-colors disabled:opacity-100 disabled:cursor-not-allowed cursor-pointer ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
       disabled={disabled || loading}
       {...props}
     >

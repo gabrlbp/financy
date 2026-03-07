@@ -1,4 +1,6 @@
-import { Wallet, CircleArrowUp, CircleArrowDown } from 'lucide-react'
+import Wallet from 'lucide-react/dist/esm/icons/wallet'
+import CircleArrowUp from 'lucide-react/dist/esm/icons/circle-arrow-up'
+import CircleArrowDown from 'lucide-react/dist/esm/icons/circle-arrow-down'
 import { Card } from '@/components/ui/Card'
 import { formatCurrency } from '@/lib/format'
 

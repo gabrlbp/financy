@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client/react'
-import { Search } from 'lucide-react'
+import Search from 'lucide-react/dist/esm/icons/search'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
@@ -48,9 +48,8 @@ export function TransactionFilters({ filters, onFilterChange }: TransactionFilte
 
   const currentYear = new Date().getFullYear()
 
-  // Generate period options (month/year combinations for last 5 years)
   const periodOptions: { value: string; label: string }[] = []
-  for (let year = currentYear; year >= currentYear - 2; year--) {
+  for (let year = currentYear; year >= currentYear; year--) {
     for (let month = 12; month >= 1; month--) {
       periodOptions.push({
         value: `${month}/${year}`,

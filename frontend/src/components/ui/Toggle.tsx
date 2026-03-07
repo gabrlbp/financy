@@ -1,5 +1,6 @@
 import type { TransactionType } from '@/types'
-import { CircleArrowDown, CircleArrowUp } from 'lucide-react'
+import CircleArrowDown from 'lucide-react/dist/esm/icons/circle-arrow-down'
+import CircleArrowUp from 'lucide-react/dist/esm/icons/circle-arrow-up'
 
 interface ToggleProps {
   value: TransactionType

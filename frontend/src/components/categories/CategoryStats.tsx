@@ -1,4 +1,6 @@
-import { Star, ArrowUpDown, Tag } from 'lucide-react'
+import Star from 'lucide-react/dist/esm/icons/star'
+import ArrowUpDown from 'lucide-react/dist/esm/icons/arrow-up-down'
+import Tag from 'lucide-react/dist/esm/icons/tag'
 import { Card } from '@/components/ui/Card'
 import { getIcon } from '@/lib/constants'
 import type { Category } from '@/types'

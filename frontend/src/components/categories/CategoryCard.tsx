@@ -1,4 +1,5 @@
-import { SquarePen, Trash } from 'lucide-react'
+import SquarePen from 'lucide-react/dist/esm/icons/square-pen'
+import Trash from 'lucide-react/dist/esm/icons/trash'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { getIcon } from '@/lib/constants'

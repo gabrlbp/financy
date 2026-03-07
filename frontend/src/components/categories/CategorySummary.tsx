@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { formatCurrency } from '@/lib/format'
 import type { Category, Transaction } from '@/types'
-import { ChevronRight } from 'lucide-react'
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right'
 
 interface CategorySummaryProps {
   categories: Category[]

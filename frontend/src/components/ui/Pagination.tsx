@@ -1,4 +1,5 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left'
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right'
 
 interface PaginationProps {
   total: number
@@ -23,7 +24,7 @@ export function Pagination({ total, skip, take, onPageChange }: PaginationProps)
   }
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between py-5 px-6">
       <span className="text-sm text-gray-500">
         <span className='font-medium'>{from}</span> a <span className='font-medium'>{to}</span> | <span className='font-medium'>{total}</span> resultados
       </span>
