@@ -164,14 +164,14 @@ The easiest way to get started is using Docker Compose to run PostgreSQL:
    ```bash
    cp .env.example .env
    ```
-   
+
    Default `.env` configuration:
    ```env
    DATABASE_URL="postgresql://docker:docker@localhost:5432/financy?schema=public"
    JWT_SECRET="default-jwt-secret-for-development"
    PORT=4000
    ```
-   
+
    **Note:** The JWT_SECRET is pre-configured for development. For production, use a strong, unique secret.
 
 4. **Run database migrations:**
