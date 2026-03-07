@@ -78,7 +78,7 @@ export function ProfilePage() {
           />
           <p className="text-xs text-gray-400 -mt-3 mb-8">O e-mail não pode ser alterado</p>
 
-          <Button className='mt-8' type="submit" fullWidth>
+          <Button type="submit" fullWidth>
             {saved ? 'Salvo!' : 'Salvar alterações'}
           </Button>
         </form>
