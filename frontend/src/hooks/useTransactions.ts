@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { useQuery } from '@apollo/client/react'
 import { TRANSACTIONS_QUERY } from '@/graphql/queries/transactions'
 import type { Transaction, TransactionFilter } from '@/types/transaction'
@@ -15,17 +15,20 @@ export function useTransactions() {
   })
   const [skip, setSkip] = useState(0)
 
+  // Memoize filter variables to prevent unnecessary refetches
+  const filterVariables = useMemo(() => ({
+    month: filters.month,
+    year: filters.year,
+    ...(filters.description ? { description: filters.description } : {}),
+    ...(filters.type ? { type: filters.type } : {}),
+    ...(filters.categoryId ? { categoryId: filters.categoryId } : {}),
+  }), [filters])
+
   const { data, loading, error, refetch } = useQuery<{
     transactions: PaginatedResponse<Transaction>
   }>(TRANSACTIONS_QUERY, {
     variables: {
-      filter: {
-        month: filters.month,
-        year: filters.year,
-        ...(filters.description ? { description: filters.description } : {}),
-        ...(filters.type ? { type: filters.type } : {}),
-        ...(filters.categoryId ? { categoryId: filters.categoryId } : {}),
-      },
+      filter: filterVariables,
       pagination: { skip, take: ITEMS_PER_PAGE },
     },
   })
