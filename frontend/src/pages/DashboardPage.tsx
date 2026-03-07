@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery } from '@apollo/client/react'
 import { SummaryCards } from '@/components/dashboard/SummaryCards'
 import { RecentTransactions } from '@/components/transactions/RecentTransactions'
@@ -18,21 +18,12 @@ const currentYear = now.getFullYear()
 export function DashboardPage() {
   const [modalOpen, setModalOpen] = useState(false)
 
-  const { data: allTxData, loading: loadingAll, refetch: refetchAll } = useQuery<{
+  const { data: allTxData, loading: loadingTx, refetch: refetchTx } = useQuery<{
     transactions: PaginatedResponse<Transaction>
   }>(TRANSACTIONS_QUERY, {
     variables: {
       filter: { month: currentMonth, year: currentYear },
       pagination: { take: 1000 },
-    },
-  })
-
-  const { data: recentTxData, loading: loadingRecent, refetch: refetchRecent } = useQuery<{
-    transactions: PaginatedResponse<Transaction>
-  }>(TRANSACTIONS_QUERY, {
-    variables: {
-      filter: { month: currentMonth, year: currentYear },
-      pagination: { take: 5 },
     },
   })
 
@@ -43,22 +34,29 @@ export function DashboardPage() {
   })
 
   const allTransactions = allTxData?.transactions.items || []
-  const recentTransactions = recentTxData?.transactions.items || []
   const categories = categoriesData?.categories.items || []
 
-  const income = allTransactions
-    .filter((t) => t.type === 'INCOME')
-    .reduce((sum, t) => sum + t.amount, 0)
-  const expenses = allTransactions
-    .filter((t) => t.type === 'EXPENSE')
-    .reduce((sum, t) => sum + t.amount, 0)
-  const balance = income - expenses
+  // Derive recent transactions from all transactions - avoid extra query
+  const recentTransactions = useMemo(() => 
+    allTransactions.slice(0, 5), 
+    [allTransactions]
+  )
 
-  const loading = loadingAll || loadingRecent || loadingCategories
+  // Memoize expensive calculations
+  const { income, expenses, balance } = useMemo(() => {
+    const income = allTransactions
+      .filter((t) => t.type === 'INCOME')
+      .reduce((sum, t) => sum + t.amount, 0)
+    const expenses = allTransactions
+      .filter((t) => t.type === 'EXPENSE')
+      .reduce((sum, t) => sum + t.amount, 0)
+    return { income, expenses, balance: income - expenses }
+  }, [allTransactions])
+
+  const loading = loadingTx || loadingCategories
 
   function handleSuccess() {
-    refetchAll()
-    refetchRecent()
+    refetchTx()
     refetchCategories()
   }
 
