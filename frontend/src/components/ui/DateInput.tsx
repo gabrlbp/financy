@@ -1,4 +1,4 @@
-import { useState, type InputHTMLAttributes } from 'react'
+import { useState, useEffect, type InputHTMLAttributes } from 'react'
 
 interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
   label?: string
@@ -9,8 +9,7 @@ interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'on
 }
 
 export function DateInput({ label, value, onChange, error, infoText, className = '', ...props }: DateInputProps) {
-  const [displayValue, setDisplayValue] = useState(() => formatDate(value))
-  const [isFocused, setIsFocused] = useState(false)
+  const [displayValue, setDisplayValue] = useState('')
 
   // Format ISO date to dd/mm/yyyy
   function formatDate(isoDate: string): string {
@@ -33,53 +32,70 @@ export function DateInput({ label, value, onChange, error, infoText, className =
   function parseDate(dateString: string): string {
     if (!dateString) return ''
     
+    // Remove any non-digit characters except /
+    const cleanString = dateString.replace(/[^\d/]/g, '')
+    
     // Try to parse dd/mm/yyyy format
-    const parts = dateString.split('/')
+    const parts = cleanString.split('/')
     if (parts.length === 3) {
       const day = parseInt(parts[0], 10)
       const month = parseInt(parts[1], 10) - 1 // Month is 0-indexed
       const year = parseInt(parts[2], 10)
       
-      const date = new Date(year, month, day)
-      if (!isNaN(date.getTime())) {
-        return date.toISOString()
+      // Validate date parts
+      if (day > 0 && day <= 31 && month >= 0 && month <= 11 && year >= 1000) {
+        const date = new Date(year, month, day)
+        if (!isNaN(date.getTime()) && date.getDate() === day) {
+          return date.toISOString()
+        }
       }
     }
     
-    return value // Return original if parsing fails
+    return '' // Return empty if parsing fails
   }
 
-  function handleFocus() {
-    setIsFocused(true)
-    // Show ISO date format on focus for easier editing
-    if (value) {
-      const date = new Date(value)
-      if (!isNaN(date.getTime())) {
-        setDisplayValue(date.toISOString().split('T')[0]) // yyyy-mm-dd for native date input
-      }
+  // Update display value when prop value changes
+  useEffect(() => {
+    setDisplayValue(formatDate(value))
+  }, [value])
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    let newValue = e.target.value
+    
+    // Remove any non-digit characters
+    newValue = newValue.replace(/\D/g, '')
+    
+    // Auto-format as dd/mm/yyyy while typing
+    if (newValue.length >= 2) {
+      newValue = newValue.slice(0, 2) + '/' + newValue.slice(2)
     }
-  }
-
-  function handleBlur() {
-    setIsFocused(false)
-    // Format on blur
-    const isoDate = parseDate(displayValue)
-    setDisplayValue(formatDate(isoDate))
-    if (isoDate !== value) {
+    if (newValue.length >= 5) {
+      newValue = newValue.slice(0, 5) + '/' + newValue.slice(5, 9)
+    }
+    
+    // Limit to dd/mm/yyyy format (10 characters)
+    newValue = newValue.slice(0, 10)
+    
+    setDisplayValue(newValue)
+    
+    // Try to parse and update parent
+    const isoDate = parseDate(newValue)
+    if (isoDate && isoDate !== value) {
       onChange(isoDate)
     }
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const newValue = e.target.value
-    setDisplayValue(newValue)
-    
-    // If it's an ISO date (from native date picker), convert immediately
-    if (newValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
-      const date = new Date(newValue)
-      if (!isNaN(date.getTime())) {
-        onChange(date.toISOString())
+  function handleBlur() {
+    // Format properly on blur
+    const isoDate = parseDate(displayValue)
+    if (isoDate) {
+      setDisplayValue(formatDate(isoDate))
+      if (isoDate !== value) {
+        onChange(isoDate)
       }
+    } else {
+      // If invalid, reset to current value or empty
+      setDisplayValue(formatDate(value))
     }
   }
 
@@ -90,13 +106,14 @@ export function DateInput({ label, value, onChange, error, infoText, className =
       )}
       <div className="relative">
         <input
-          type={isFocused ? 'date' : 'text'}
+          type="text"
+          inputMode="numeric"
           className={`w-full rounded-lg border border-gray-300 bg-white px-3 py-3.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${error ? 'border-danger' : ''} ${className}`}
-          value={isFocused ? (value ? new Date(value).toISOString().split('T')[0] : '') : displayValue}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          value={displayValue}
           onChange={handleChange}
+          onBlur={handleBlur}
           placeholder="dd/mm/aaaa"
+          maxLength={10}
           {...props}
         />
       </div>
