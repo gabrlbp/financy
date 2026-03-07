@@ -49,38 +49,41 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
         </thead>
         <tbody className="divide-y divide-gray-200">
           {transactions.map((t) => {
-            const Icon = getIcon(t.category.icon)
+            // Destructure to avoid repeated property access
+            const { id, description, amount, type, date, category } = t
+            const Icon = getIcon(category.icon)
+
             return (
-              <tr key={t.id} className="hover:bg-gray-100">
+              <tr key={id} className="hover:bg-gray-100">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div
                       className="flex h-9 w-9 items-center justify-center rounded-lg"
                       style={{
-                        backgroundColor: `${t.category.color}1A`,
-                        color: t.category.color,
+                        backgroundColor: `${category.color}1A`,
+                        color: category.color,
                       }}
                     >
                       <Icon className="h-4 w-4" />
                     </div>
-                    <span className="font-medium text-gray-800">{t.description}</span>
+                    <span className="font-medium text-gray-800">{description}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">{formatDate(t.date)}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{formatDate(date)}</td>
                 <td className="px-6 py-4">
-                  {t.category && <Badge label={t.category.title} color={t.category.color} />}
+                  {category ? <Badge label={category.title} color={category.color} /> : null}
                 </td>
                 <td className="px-6 py-4">
                   <span className='inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-sm font-medium'>
                     {
-                      t.type === 'INCOME'
+                      type === 'INCOME'
                         ? <><ArrowUpCircle className='text-brand' size={16} /> <span className='text-brand-dark'>Entrada</span></>
                         : <><ArrowDownCircle className='text-danger' size={16} /> <span className='text-danger-dark'>Saída</span></>}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
                   <span className='text-sm font-semibold text-gray-800'>
-                    {t.type === 'INCOME' ? '+' : '-'} {formatCurrency(t.amount)}
+                    {type === 'INCOME' ? '+' : '-'} {formatCurrency(amount)}
                   </span>
                 </td>
                 <td className="px-6 py-4">
