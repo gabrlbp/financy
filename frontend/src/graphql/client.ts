@@ -40,7 +40,8 @@ const cache = new InMemoryCache({
     Query: {
       fields: {
         transactions: {
-          keyArgs: ['filter'],
+          // Include both filter and pagination in cache key for proper pagination
+          keyArgs: ['filter', 'pagination'],
           merge(_existing, incoming) {
             return incoming
           },
