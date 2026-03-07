@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useMutation } from '@apollo/client/react'
 import Plus from 'lucide-react/dist/esm/icons/plus'
 import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
@@ -23,17 +23,17 @@ export function TransactionsPage() {
 
   const [deleteTransaction, { loading: deleting }] = useMutation(DELETE_TRANSACTION_MUTATION)
 
-  function handleEdit(transaction: Transaction) {
+  const handleEdit = useCallback((transaction: Transaction) => {
     setEditingTransaction(transaction)
     setModalOpen(true)
-  }
+  }, [])
 
-  function handleNew() {
+  const handleNew = useCallback(() => {
     setEditingTransaction(null)
     setModalOpen(true)
-  }
+  }, [])
 
-  async function handleDelete() {
+  const handleDelete = useCallback(async () => {
     if (!deletingTransaction) return
     try {
       await deleteTransaction({ variables: { id: deletingTransaction.id } })
@@ -42,11 +42,11 @@ export function TransactionsPage() {
     } catch {
       // Error handled by Apollo error link
     }
-  }
+  }, [deletingTransaction, deleteTransaction, refetch])
 
-  function handleSuccess() {
+  const handleSuccess = useCallback(() => {
     refetch()
-  }
+  }, [refetch])
 
   if (loading && items.length === 0) {
     return (

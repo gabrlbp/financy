@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useMutation } from '@apollo/client/react'
 import Plus from 'lucide-react/dist/esm/icons/plus'
 import Loader2 from 'lucide-react/dist/esm/icons/loader-2'
@@ -23,17 +23,17 @@ export function CategoriesPage() {
 
   const [deleteCategory, { loading: deleting }] = useMutation(DELETE_CATEGORY_MUTATION)
 
-  function handleEdit(category: Category) {
+  const handleEdit = useCallback((category: Category) => {
     setEditingCategory(category)
     setModalOpen(true)
-  }
+  }, [])
 
-  function handleNew() {
+  const handleNew = useCallback(() => {
     setEditingCategory(null)
     setModalOpen(true)
-  }
+  }, [])
 
-  async function handleDelete() {
+  const handleDelete = useCallback(async () => {
     if (!deletingCategory) return
     try {
       await deleteCategory({ variables: { id: deletingCategory.id } })
@@ -42,11 +42,11 @@ export function CategoriesPage() {
     } catch {
       // Error handled by Apollo error link
     }
-  }
+  }, [deletingCategory, deleteCategory, refetch])
 
-  function handleSuccess() {
+  const handleSuccess = useCallback(() => {
     refetch()
-  }
+  }, [refetch])
 
   if (loading && items.length === 0) {
     return (
