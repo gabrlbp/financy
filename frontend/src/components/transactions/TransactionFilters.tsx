@@ -13,20 +13,20 @@ interface TransactionFiltersProps {
   onFilterChange: (filters: Partial<TransactionFilter>) => void
 }
 
-const MONTHS = [
-  { value: '1', label: 'Janeiro' },
-  { value: '2', label: 'Fevereiro' },
-  { value: '3', label: 'Março' },
-  { value: '4', label: 'Abril' },
-  { value: '5', label: 'Maio' },
-  { value: '6', label: 'Junho' },
-  { value: '7', label: 'Julho' },
-  { value: '8', label: 'Agosto' },
-  { value: '9', label: 'Setembro' },
-  { value: '10', label: 'Outubro' },
-  { value: '11', label: 'Novembro' },
-  { value: '12', label: 'Dezembro' },
-]
+const MONTHS = new Map([
+  ['1', 'Janeiro'],
+  ['2', 'Fevereiro'],
+  ['3', 'Março'],
+  ['4', 'Abril'],
+  ['5', 'Maio'],
+  ['6', 'Junho'],
+  ['7', 'Julho'],
+  ['8', 'Agosto'],
+  ['9', 'Setembro'],
+  ['10', 'Outubro'],
+  ['11', 'Novembro'],
+  ['12', 'Dezembro'],
+])
 
 export function TransactionFilters({ filters, onFilterChange }: TransactionFiltersProps) {
   const [search, setSearch] = useState(filters.description || '')
@@ -55,7 +55,7 @@ export function TransactionFilters({ filters, onFilterChange }: TransactionFilte
     for (let month = 12; month >= 1; month--) {
       periodOptions.push({
         value: `${month}/${year}`,
-        label: `${MONTHS.find(m => m.value === String(month))?.label} / ${year}`,
+        label: `${MONTHS.get(String(month))} / ${year}`,
       })
     }
   }
