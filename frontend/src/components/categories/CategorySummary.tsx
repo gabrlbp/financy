@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -12,13 +13,23 @@ interface CategorySummaryProps {
 }
 
 export function CategorySummary({ categories, transactions }: CategorySummaryProps) {
-  const categoryStats = categories.map((cat) => {
-    const catTransactions = transactions.filter((t) => t.category?.id === cat.id)
-    const total = catTransactions.reduce((sum, t) => {
-      return t.type === 'EXPENSE' ? sum - t.amount : sum + t.amount
-    }, 0)
-    return { ...cat, count: catTransactions.length, total }
-  })
+  // Optimize with Map for O(n+m) complexity instead of O(n*m)
+  const categoryStats = useMemo(() => {
+    const txByCategory = new Map<string, Transaction[]>()
+    transactions.forEach(t => {
+      const catId = t.category?.id
+      if (!catId) return
+      if (!txByCategory.has(catId)) txByCategory.set(catId, [])
+      txByCategory.get(catId)!.push(t)
+    })
+
+    return categories.map(cat => {
+      const catTransactions = txByCategory.get(cat.id) || []
+      const total = catTransactions.reduce((sum, t) =>
+        t.type === 'EXPENSE' ? sum - t.amount : sum + t.amount, 0)
+      return { ...cat, count: catTransactions.length, total }
+    })
+  }, [categories, transactions])
 
   return (
     <Card className='max-h-fit'>
@@ -33,7 +44,7 @@ export function CategorySummary({ categories, transactions }: CategorySummaryPro
         <p className="py-8 text-center text-sm text-gray-500">Nenhuma categoria encontrada</p>
       ) : (
         <div className='px-5 py-6'>
-          {categoryStats.map((cat) => {
+          {categoryStats.slice(0, 5).map((cat) => {
             return (
               <div key={cat.id} className="flex items-center justify-between py-3">
                 <Badge label={cat.title} color={cat.color} />
@@ -45,7 +56,7 @@ export function CategorySummary({ categories, transactions }: CategorySummaryPro
                 </div>
               </div>
             )
-          }).slice(0, 5)}
+          })}
         </div>
       )}
     </Card>

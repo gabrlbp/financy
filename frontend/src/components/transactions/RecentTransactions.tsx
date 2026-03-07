@@ -31,7 +31,7 @@ export function RecentTransactions({ transactions, onNewTransaction }: RecentTra
         <p className="py-8 text-center text-sm text-gray-500">Nenhuma transação encontrada</p>
       ) : (
         <>
-          {transactions.map((t) => {
+          {transactions.slice(0, 5).map((t) => {
             const Icon = getIcon(t.category.icon)
             return (
               <div key={t.id} className="flex items-center justify-between py-5 px-6 border-b border-b-gray-200">
@@ -51,7 +51,7 @@ export function RecentTransactions({ transactions, onNewTransaction }: RecentTra
                   </div>
                 </div>
                 <div className="flex items-center gap-12">
-                  {t.category && <Badge label={t.category.title} color={t.category.color} />}
+                  {t.category ? <Badge label={t.category.title} color={t.category.color} /> : null}
                   <span className='flex items-center gap-2 text-sm font-semibold text-gray-800'>
                     {t.type === 'INCOME' ? '+' : '-'} {formatCurrency(t.amount)}
                     {t.type === 'INCOME' ? <CircleArrowUp size={16} className='text-brand' /> : <CircleArrowDown size={16} className='text-danger' />}
@@ -59,7 +59,7 @@ export function RecentTransactions({ transactions, onNewTransaction }: RecentTra
                 </div>
               </div>
             )
-          }).slice(0, 5)}
+          })}
         </>
       )}
       <Button className='text-sm py-5 px-6' icon={Plus} onClick={onNewTransaction} fullWidth variant='invisible'>
