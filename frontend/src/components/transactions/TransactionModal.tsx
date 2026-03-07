@@ -42,7 +42,6 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
 
   const loading = creating || updating
 
-  //TODO: tentar alterar para usar uma função apenas ou entao alterar o if pelo menos para nao usar o else
   useEffect(() => {
     if (transaction) {
       setForm({
@@ -57,7 +56,7 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
     }
     clearErrors()
     setServerError('')
-  }, [transaction, open])
+  }, [transaction?.id, open])
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()

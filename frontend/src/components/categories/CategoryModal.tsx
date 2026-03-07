@@ -47,7 +47,7 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
     }
     clearErrors()
     setServerError('')
-  }, [category, open])
+  }, [category?.id, open])
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
