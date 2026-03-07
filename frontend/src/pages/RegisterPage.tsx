@@ -46,11 +46,11 @@ export function RegisterPage() {
         <p className="mt-1 text-sm text-gray-500">Comece a controlar suas finanças ainda hoje</p>
       </div>
 
-      {serverError && (
+      {serverError ? (
         <div className="mb-4 rounded-lg bg-danger-light p-3 text-sm text-danger">
           {serverError}
         </div>
-      )}
+      ) : null}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input

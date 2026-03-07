@@ -41,9 +41,9 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
       </div>
       <div className="mt-5">
         <h3 className="text-sm font-semibold text-gray-800">{category.title}</h3>
-        {category.description && (
+        {category.description ? (
           <p className="mt-1 text-xs text-gray-500 line-clamp-2">{category.description}</p>
-        )}
+        ) : null}
       </div>
       <div className="mt-5 flex items-center justify-between">
         <Badge label={category.title} color={category.color} />

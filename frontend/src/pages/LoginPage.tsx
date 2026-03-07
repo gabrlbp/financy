@@ -45,11 +45,11 @@ export function LoginPage() {
         <p className="mt-1 text-sm text-gray-500">Entre na sua conta para continuar</p>
       </div>
 
-      {serverError && (
+      {serverError ? (
         <div className="mb-4 rounded-lg bg-danger-light p-3 text-sm text-danger">
           {serverError}
         </div>
-      )}
+      ) : null}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input

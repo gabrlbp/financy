@@ -99,11 +99,11 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
       title={transaction ? 'Editar transação' : 'Nova transação'}
       subtitle={transaction ? 'Altere os dados da transação' : 'Registre sua despesa ou receita'}
     >
-      {serverError && (
+      {serverError ? (
         <div className="mb-4 rounded-lg bg-danger-light p-3 text-sm text-danger">
           {serverError}
         </div>
-      )}
+      ) : null}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Toggle value={form.type} onChange={(type) => setField('type', type)} />

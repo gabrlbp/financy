@@ -89,11 +89,11 @@ export function CategoryModal({ open, onClose, category, onSuccess }: CategoryMo
       title={category ? 'Editar categoria' : 'Nova categoria'}
       subtitle={category ? 'Altere os dados da categoria' : 'Organize suas transações com categorias'}
     >
-      {serverError && (
+      {serverError ? (
         <div className="mb-4 rounded-lg bg-danger-light p-3 text-sm text-danger">
           {serverError}
         </div>
-      )}
+      ) : null}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
