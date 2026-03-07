@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Button } from '@/components/ui/Button'
 import { Toggle } from '@/components/ui/Toggle'
+import { MoneyInput } from '@/components/ui/MoneyInput'
+import { DateInput } from '@/components/ui/DateInput'
 import { transactionSchema, type TransactionData } from '@/lib/validators'
 import { CREATE_TRANSACTION_MUTATION, UPDATE_TRANSACTION_MUTATION } from '@/graphql/mutations/transactions'
 import { CATEGORIES_QUERY } from '@/graphql/queries/categories'
@@ -117,21 +119,16 @@ export function TransactionModal({ open, onClose, transaction, onSuccess }: Tran
         />
 
         <div className="grid grid-cols-2 gap-4">
-          <Input
+          <DateInput
             label="Data"
-            type="date"
             value={form.date}
-            onChange={(e) => setField('date', e.target.value)}
+            onChange={(value) => setField('date', value)}
             error={errors.date}
           />
-          <Input
+          <MoneyInput
             label="Valor"
-            type="number"
-            step="0.01"
-            min="0"
-            placeholder="0,00"
             value={form.amount}
-            onChange={(e) => setField('amount', Number(e.target.value))}
+            onChange={(value) => setField('amount', value)}
             error={errors.amount}
           />
         </div>
