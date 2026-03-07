@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Star from 'lucide-react/dist/esm/icons/star'
 import ArrowUpDown from 'lucide-react/dist/esm/icons/arrow-up-down'
 import Tag from 'lucide-react/dist/esm/icons/tag'
@@ -15,7 +16,7 @@ export function CategoryStats({ totalCategories, totalTransactions, mostUsed }: 
   const MostUsedIcon = mostUsed ? getIcon(mostUsed.icon) : Star
   const isHexColor = (iconColor: string | null) => iconColor?.startsWith('#')
 
-  const stats = [
+  const stats = useMemo(() => [
     {
       title: 'Total de categorias',
       value: String(totalCategories),
@@ -34,7 +35,7 @@ export function CategoryStats({ totalCategories, totalTransactions, mostUsed }: 
       icon: MostUsedIcon,
       iconColor: mostUsed ? mostUsed.color : '#000',
     },
-  ]
+  ], [totalCategories, totalTransactions, mostUsed, MostUsedIcon])
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">

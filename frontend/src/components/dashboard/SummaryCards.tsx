@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Wallet from 'lucide-react/dist/esm/icons/wallet'
 import CircleArrowUp from 'lucide-react/dist/esm/icons/circle-arrow-up'
 import CircleArrowDown from 'lucide-react/dist/esm/icons/circle-arrow-down'
@@ -11,7 +12,7 @@ interface SummaryCardsProps {
 }
 
 export function SummaryCards({ balance, income, expenses }: SummaryCardsProps) {
-  const cards = [
+  const cards = useMemo(() => [
     {
       title: 'Saldo total',
       value: balance,
@@ -30,7 +31,7 @@ export function SummaryCards({ balance, income, expenses }: SummaryCardsProps) {
       icon: CircleArrowDown,
       iconColor: 'text-danger',
     },
-  ]
+  ], [balance, income, expenses])
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
