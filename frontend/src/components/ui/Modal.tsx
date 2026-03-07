@@ -10,11 +10,11 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, title, subtitle, children }: ModalProps) {
-  function handleEsc(e: KeyboardEvent) {
-    if (e.key === 'Escape') onClose()
-  }
-
   useEffect(() => {
+    function handleEsc(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+
     if (open) {
       document.addEventListener('keydown', handleEsc)
       document.body.style.overflow = 'hidden'
