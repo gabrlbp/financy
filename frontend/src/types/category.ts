@@ -1,3 +1,5 @@
+import type { Transaction } from "./transaction"
+
 export interface Category {
   id: string
   title: string
@@ -6,13 +8,5 @@ export interface Category {
   color: string
   createdAt: string
   updatedAt: string
-  transactions: Array<{
-    id: string
-    description: string
-    amount: number
-    type: 'INCOME' | 'EXPENSE'
-    date: string
-    createdAt: string
-    updatedAt: string
-  }>
+  transactions: Transaction[]
 }
