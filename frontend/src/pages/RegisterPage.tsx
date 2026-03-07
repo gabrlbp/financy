@@ -92,11 +92,11 @@ export function RegisterPage() {
       <p className="my-6 text-center text-md text-gray-500">
         Já tem uma conta?
       </p>
-      <Button type="button" variant='secondary' icon={LogIn} fullWidth>
-        <Link to="/login">
-          Fazer login
-        </Link>
-      </Button>
+      <Link to="/login">
+        <Button type="button" variant='secondary' icon={LogIn} fullWidth>
+            Fazer login
+        </Button>
+      </Link>
     </>
   )
 }

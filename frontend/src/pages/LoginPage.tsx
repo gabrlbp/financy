@@ -82,11 +82,11 @@ export function LoginPage() {
       <p className="my-6 text-center text-md text-gray-500">
         Ainda não tem uma conta?
       </p>
-      <Button type="button" variant='secondary' icon={UserRoundPlus} fullWidth>
-        <Link to="/cadastro">
-          Criar conta
-        </Link>
-      </Button>
+      <Link to="/cadastro">
+        <Button type="button" variant='secondary' icon={UserRoundPlus} fullWidth>
+            Criar conta
+        </Button>
+      </Link>
     </>
   )
 }
