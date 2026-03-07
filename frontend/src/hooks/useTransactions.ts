@@ -15,7 +15,6 @@ export function useTransactions() {
   })
   const [skip, setSkip] = useState(0)
 
-  // Memoize filter variables to prevent unnecessary refetches
   const filterVariables = useMemo(() => ({
     month: filters.month,
     year: filters.year,

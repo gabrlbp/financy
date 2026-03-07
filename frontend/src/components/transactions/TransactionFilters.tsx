@@ -60,7 +60,6 @@ export function TransactionFilters({ filters, onFilterChange }: TransactionFilte
     }
   }
 
-  // Current selected period value
   const currentPeriod = filters.month && filters.year
     ? `${filters.month}/${filters.year}`
     : `${new Date().getMonth() + 1}/${currentYear}`

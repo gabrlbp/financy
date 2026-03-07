@@ -49,7 +49,6 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
         </thead>
         <tbody className="divide-y divide-gray-200">
           {transactions.map((t) => {
-            // Destructure to avoid repeated property access
             const { id, description, amount, type, date, category } = t
             const Icon = getIcon(category.icon)
 

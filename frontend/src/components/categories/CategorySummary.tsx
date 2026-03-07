@@ -13,7 +13,6 @@ interface CategorySummaryProps {
 }
 
 export function CategorySummary({ categories, transactions }: CategorySummaryProps) {
-  // Optimize with Map for O(n+m) complexity instead of O(n*m)
   const categoryStats = useMemo(() => {
     const txByCategory = new Map<string, Transaction[]>()
     transactions.forEach(t => {
