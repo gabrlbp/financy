@@ -18,7 +18,7 @@
 	"dependencies": {
 		"@apollo/server": "^5.4.0",
 		"@as-integrations/express5": "^1.1.2",
-		"@prisma/adapter-pg": "^7.4.0",
+		"@prisma/adapter-better-sqlite3": "^7.5.0",
 		"@prisma/client": "^7.4.0",
 		"bcryptjs": "^3.0.3",
 		"cors": "^2.8.6",
@@ -28,7 +28,6 @@
 		"graphql": "^16.12.0",
 		"graphql-scalars": "^1.25.0",
 		"jsonwebtoken": "^9.0.3",
-		"pg": "^8.18.0",
 		"reflect-metadata": "^0.2.2",
 		"type-graphql": "2.0.0-rc.3",
 		"typedi": "^0.10.0",
@@ -40,7 +39,6 @@
 		"@types/express": "^5.0.6",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/node": "^25.2.3",
-		"@types/pg": "^8.16.0",
 		"prisma": "^7.4.0",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3"

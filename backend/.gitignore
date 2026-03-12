@@ -36,3 +36,9 @@ Thumbs.db
 dist/
 build/
 *.tsbuildinfo
+
+# Prisma
+generated/
+
+# Database
+dev.db

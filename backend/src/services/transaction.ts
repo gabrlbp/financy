@@ -1,6 +1,5 @@
-import type { TransactionType } from '@prisma/client';
+import type { Prisma,TransactionType } from '@/generated/client';
 import { endOfMonth } from 'date-fns';
-import type { TransactionWhereInput } from '@/generated/prisma/internal/prismaNamespace';
 import { prisma } from '@/lib/prisma';
 import { BadRequestError, NotFoundError } from '@/utils/errors';
 
@@ -15,8 +14,8 @@ interface CreateTransactionInput {
 type UpdateTransactionInput = Partial<CreateTransactionInput>;
 
 interface TransactionFilters {
-	month: number;
-	year: number;
+	month?: number;
+	year?: number;
 	description?: string;
 	type?: TransactionType;
 	categoryId?: string;
@@ -56,21 +55,22 @@ export class TransactionService {
 		skip: number = 0,
 		take: number = 10,
 	) {
-		const startDate = new Date(filters.year, filters.month - 1, 1);
-		const endDate = endOfMonth(startDate);
-
-		const where: TransactionWhereInput = {
+		const where: Prisma.TransactionWhereInput = {
 			userId,
-			date: {
+		};
+
+		if (filters.year !== undefined && filters.month !== undefined) {
+			const startDate = new Date(filters.year, filters.month - 1, 1);
+			const endDate = endOfMonth(startDate);
+			where.date = {
 				gte: startDate,
 				lte: endDate,
-			},
-		};
+			};
+		}
 
 		if (filters.description) {
 			where.description = {
 				contains: filters.description,
-				mode: 'insensitive',
 			};
 		}
 
@@ -166,6 +166,8 @@ export class TransactionService {
 		await prisma.transaction.delete({
 			where: { id: transactionId },
 		});
+
+		return true;
 	}
 
 	async findAllByCategoryId(categoryId: string) {

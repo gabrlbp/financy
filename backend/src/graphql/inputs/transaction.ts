@@ -39,11 +39,11 @@ export class UpdateTransactionInput {
 
 @InputType()
 export class TransactionFilterInput {
-	@Field(() => Int)
-	month!: number;
+	@Field(() => Int, { nullable: true })
+	month?: number;
 
-	@Field(() => Int)
-	year!: number;
+	@Field(() => Int, { nullable: true })
+	year?: number;
 
 	@Field(() => String, { nullable: true })
 	description?: string;

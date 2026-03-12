@@ -34,7 +34,8 @@ export class TransactionResolver {
 
 	@Query(() => PaginatedTransaction)
 	async transactions(
-		@Arg('filter', () => TransactionFilterInput) filter: TransactionFilterInput,
+		@Arg('filter', () => TransactionFilterInput, { nullable: true })
+		filter: TransactionFilterInput | null,
 		@Arg('pagination', () => PaginationInput, {
 			defaultValue: { skip: 0, take: 10 },
 		})
@@ -43,7 +44,7 @@ export class TransactionResolver {
 	): Promise<PaginatedTransaction> {
 		return this.transactionService.findAll(
 			ctx.userId,
-			filter,
+			filter || {},
 			pagination.skip,
 			pagination.take,
 		);
@@ -78,8 +79,8 @@ export class TransactionResolver {
 	async deleteTransaction(
 		@Arg('id', () => ID) id: string,
 		@Ctx() ctx: GraphQLContext,
-	): Promise<void> {
-		await this.transactionService.deleteTransaction(ctx.userId, id);
+	): Promise<boolean> {
+		return await this.transactionService.deleteTransaction(ctx.userId, id);
 	}
 
 	@FieldResolver(() => User, { nullable: true })

@@ -1,5 +1,4 @@
-import { TransactionType as PrismaTransactionType } from '@prisma/client';
-import type { Decimal } from '@prisma/client/runtime/client';
+import { TransactionType as PrismaTransactionType } from '@/generated/client';
 import { Field, Float, ID, ObjectType, registerEnumType } from 'type-graphql';
 import { Category } from './category';
 import { User } from './user';
@@ -19,7 +18,7 @@ export class Transaction {
 	description!: string;
 
 	@Field(() => Float)
-	amount!: Decimal;
+	amount!: number;
 
 	@Field(() => PrismaTransactionType)
 	type!: PrismaTransactionType;
