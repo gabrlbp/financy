@@ -22,12 +22,14 @@ export function DashboardPage() {
     transactions: PaginatedResponse<Transaction>
   }>(TRANSACTIONS_QUERY, {
     variables: { filter: { month: currentMonth, year: currentYear } },
+    fetchPolicy: 'cache-and-network',
   })
 
   const { data: categoriesData, loading: loadingCategories, refetch: refetchCategories } = useQuery<{
     categories: PaginatedResponse<Category>
   }>(CATEGORIES_QUERY, {
     variables: { pagination: { take: 100 } },
+    fetchPolicy: 'cache-and-network',
   })
 
   const allTransactions = allTxData?.transactions.items || []
