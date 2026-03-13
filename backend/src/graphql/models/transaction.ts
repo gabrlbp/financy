@@ -1,5 +1,5 @@
-import { TransactionType as PrismaTransactionType } from '@/generated/client';
 import { Field, Float, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { TransactionType as PrismaTransactionType } from '@/generated/client';
 import { Category } from './category';
 import { User } from './user';
 

@@ -1,5 +1,5 @@
-import type { Prisma,TransactionType } from '@/generated/client';
 import { endOfMonth } from 'date-fns';
+import type { Prisma, TransactionType } from '@/generated/client';
 import { prisma } from '@/lib/prisma';
 import { BadRequestError, NotFoundError } from '@/utils/errors';
 
